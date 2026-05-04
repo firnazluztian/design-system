@@ -1,0 +1,253 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 222.2 84% 4.9%;
+  }
+  html {
+    font-family: 'Poppins', sans-serif;
+  }
+}
+
+@layer base {}
+
+@keyframes progress-indeterminate {
+  0% { left: -40%; width: 40%; }
+  100% { left: 100%; width: 40%; }
+}
+
+@keyframes dash {
+  0% {
+    stroke-dasharray: 1, 150;
+    stroke-dashoffset: 0;
+  }
+  50% {
+    stroke-dasharray: 90, 150;
+    stroke-dashoffset: -35;
+  }
+  100% {
+    stroke-dasharray: 90, 150;
+    stroke-dashoffset: -124;
+  }
+}
+
+@keyframes pulse-left-to-right {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+.animate-progress-indeterminate {
+  position: relative;
+  animation: progress-indeterminate 1.5s infinite linear;
+}
+
+.animate-dash {
+  animation: dash 1.5s infinite linear;
+}
+
+.animate-spin {
+  animation: spin 1s linear infinite;
+}
+
+.animate-pulse-left-to-right {
+  animation: pulse-left-to-right 1.5s ease-in-out infinite;
+}
+
+@keyframes spin {
+  100% { transform: rotate(360deg); }
+}
+
+/* Tiptap Editor Styles */
+.ProseMirror {
+  outline: none;
+}
+
+.ProseMirror p.is-editor-empty:first-child::before {
+  color: #adb5bd;
+  content: attr(data-placeholder);
+  float: left;
+  height: 0;
+  pointer-events: none;
+}
+
+.ProseMirror h1 {
+  font-size: 2em;
+  font-weight: bold;
+  margin-top: 0.67em;
+  margin-bottom: 0.67em;
+}
+
+.ProseMirror h2 {
+  font-size: 1.5em;
+  font-weight: bold;
+  margin-top: 0.83em;
+  margin-bottom: 0.83em;
+}
+
+.ProseMirror h3 {
+  font-size: 1.17em;
+  font-weight: bold;
+  margin-top: 1em;
+  margin-bottom: 1em;
+}
+
+.ProseMirror h4 {
+  font-size: 1em;
+  font-weight: bold;
+  margin-top: 1.33em;
+  margin-bottom: 1.33em;
+}
+
+.ProseMirror h5 {
+  font-size: 0.83em;
+  font-weight: bold;
+  margin-top: 1.67em;
+  margin-bottom: 1.67em;
+}
+
+.ProseMirror h6 {
+  font-size: 0.67em;
+  font-weight: bold;
+  margin-top: 2.33em;
+  margin-bottom: 2.33em;
+}
+
+.ProseMirror ul,
+.ProseMirror ol {
+  padding-left: 1.5em;
+  margin: 1em 0;
+}
+
+.ProseMirror ul {
+  list-style-type: disc;
+}
+
+.ProseMirror ol {
+  list-style-type: decimal;
+}
+
+.ProseMirror li {
+  margin: 0.5em 0;
+}
+
+.ProseMirror blockquote {
+  border-left: 4px solid #e5e7eb;
+  padding-left: 1em;
+  margin: 1em 0;
+  font-style: italic;
+  color: #6b7280;
+}
+
+.ProseMirror code {
+  background-color: #f3f4f6;
+  padding: 0.2em 0.4em;
+  border-radius: 0.25rem;
+  font-family: 'Courier New', monospace;
+  font-size: 0.9em;
+}
+
+.ProseMirror pre {
+  background-color: #1f2937;
+  color: #f9fafb;
+  padding: 1em;
+  border-radius: 0.5rem;
+  overflow-x: auto;
+  margin: 1em 0;
+}
+
+.ProseMirror pre code {
+  background-color: transparent;
+  padding: 0;
+  color: inherit;
+}
+
+.ProseMirror hr {
+  border: none;
+  border-top: 2px solid #e5e7eb;
+  margin: 2em 0;
+}
+
+.ProseMirror a {
+  color: #3b82f6;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.ProseMirror a:hover {
+  color: #2563eb;
+}
+
+.ProseMirror img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 0.5rem;
+  margin: 1em 0;
+}
+
+.ProseMirror table {
+  border-collapse: collapse;
+  margin: 1em 0;
+  width: 100%;
+}
+
+.ProseMirror table td,
+.ProseMirror table th {
+  border: 1px solid #e5e7eb;
+  padding: 0.5em 1em;
+  min-width: 1em;
+}
+
+.ProseMirror table th {
+  background-color: #f9fafb;
+  font-weight: normal !important;
+}
+
+.ProseMirror table .selectedCell:after {
+  z-index: 2;
+  position: absolute;
+  content: "";
+  left: 0; right: 0; top: 0; bottom: 0;
+  background: rgba(200, 200, 255, 0.4);
+  pointer-events: none;
+}
+
+.ProseMirror table .column-resize-handle {
+  position: absolute;
+  right: -2px;
+  top: 0;
+  bottom: -2px;
+  width: 4px;
+  background-color: #3b82f6;
+  pointer-events: none;
+}
+
+.ProseMirror .task-list-item {
+  list-style: none;
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5em;
+}
+
+.ProseMirror .task-list-item input[type="checkbox"] {
+  margin-top: 0.2em;
+  cursor: pointer;
+}
+
+.ProseMirror mark {
+  background-color: #fef08a;
+  padding: 0.1em 0.2em;
+  border-radius: 0.2em;
+}
+
+.ProseMirror [data-type="horizontalRule"] {
+  margin: 2em 0;
+} 

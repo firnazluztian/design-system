@@ -1,0 +1,16 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "outDir": "dist",
+    "declaration": true,
+    "emitDeclarationOnly": true,
+    "declarationMap": false,
+    "skipLibCheck": true,
+    "noEmit": false,  // <-- this disables noEmit
+    "moduleResolution": "Node", // <-- bundler is not supported when emitting
+    "module": "ESNext",
+    "target": "ESNext"
+  },
+  "include": ["src"],
+  "exclude": ["node_modules", "dist", "**/*.stories.tsx", "**/*.test.tsx"]
+}

@@ -1,0 +1,99 @@
+@import "tailwindcss";
+
+:root {
+  --background: #fafcfb;
+  --foreground: #121416;
+  --surface: #ffffff;
+  --surface-muted: #f5fcfb;
+  --border: #e9ecef;
+  --muted: #495057;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #06080a;
+    --foreground: #e9ecef;
+    --surface: #0f1113;
+    --surface-muted: #0a0e10;
+    --border: #212529;
+    --muted: #adb5bd;
+  }
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-surface: var(--surface);
+  --color-surface-muted: var(--surface-muted);
+  --color-border: var(--border);
+  --color-muted: var(--muted);
+
+  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
+  --font-display: var(--font-syne), var(--font-geist-sans), ui-sans-serif,
+    system-ui, sans-serif;
+
+  /* Tixia-aligned primary (teal) */
+  --color-primary-50: #e6f7fa;
+  --color-primary-100: #b3e6f0;
+  --color-primary-200: #80d5e6;
+  --color-primary-300: #4dc4dc;
+  --color-primary-400: #1ab3d2;
+  --color-primary-500: #007c99;
+  --color-primary-600: #006b80;
+  --color-primary-700: #005a66;
+  --color-primary-800: #00494d;
+  --color-primary-900: #003833;
+  --color-primary: #007c99;
+
+  /* Secondary (soft mint) */
+  --color-secondary-100: #e8f7f5;
+  --color-secondary-300: #ceeae7;
+  --color-secondary-500: #a2cecb;
+  --color-secondary: #ceeae7;
+
+  /* Neutrals */
+  --color-neutral-50: #f8f9fa;
+  --color-neutral-100: #e9ecef;
+  --color-neutral-200: #dee2e6;
+  --color-neutral-300: #ced4da;
+  --color-neutral-400: #adb5bd;
+  --color-neutral-500: #6c757d;
+  --color-neutral-600: #495057;
+  --color-neutral-700: #343a40;
+  --color-neutral-800: #212529;
+  --color-neutral-900: #121416;
+
+  /*
+   * Marquee vocabulary band.
+   * Tailwind v4's compiler drops @keyframes that sit at the root of this file
+   * after `@import "tailwindcss"`. Nesting them here (same as the built-in
+   * spin/ping/pulse keyframes) guarantees they reach the final stylesheet.
+   */
+  --animate-marquee-forward: marquee 45s linear infinite;
+  --animate-marquee-back: marquee-reverse 60s linear infinite;
+
+  @keyframes marquee {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-50%);
+    }
+  }
+
+  @keyframes marquee-reverse {
+    from {
+      transform: translateX(-50%);
+    }
+    to {
+      transform: translateX(0);
+    }
+  }
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans);
+}

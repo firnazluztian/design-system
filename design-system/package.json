@@ -1,0 +1,108 @@
+{
+  "name": "@tixia/design-system",
+  "version": "2.2.14",
+  "private": false,
+  "main": "./dist/tixia-design-system.umd.js",
+  "module": "./dist/tixia-design-system.mjs",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/tixia-design-system.mjs",
+      "require": "./dist/tixia-design-system.umd.js"
+    }
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build && tsc -p tsconfig.build.json && cp -r src/components dist/",
+    "storybook": "storybook dev",
+    "build-storybook": "storybook build",
+    "preview": "vite preview",
+    "release:patch": "ts-node --project tsconfig.release.json scripts/release.ts patch",
+    "release:minor": "ts-node --project tsconfig.release.json scripts/release.ts minor",
+    "release:major": "ts-node --project tsconfig.release.json scripts/release.ts major"
+  },
+  "dependencies": {
+    "@heroui/react": "^2.7.6",
+    "@iconify/react": "^4.1.1",
+    "@tanstack/react-table": "^8.21.3",
+    "@tiptap/extension-code-block-lowlight": "^3.15.3",
+    "@tiptap/extension-color": "^3.15.3",
+    "@tiptap/extension-highlight": "^3.15.3",
+    "@tiptap/extension-image": "^3.15.3",
+    "@tiptap/extension-link": "^3.15.3",
+    "@tiptap/extension-placeholder": "^3.15.3",
+    "@tiptap/extension-subscript": "^3.15.3",
+    "@tiptap/extension-superscript": "^3.15.3",
+    "@tiptap/extension-table": "^3.15.3",
+    "@tiptap/extension-table-cell": "^3.15.3",
+    "@tiptap/extension-table-header": "^3.15.3",
+    "@tiptap/extension-table-row": "^3.15.3",
+    "@tiptap/extension-task-item": "^3.15.3",
+    "@tiptap/extension-task-list": "^3.15.3",
+    "@tiptap/extension-text-align": "^3.15.3",
+    "@tiptap/extension-text-style": "^3.15.3",
+    "@tiptap/extension-underline": "^3.15.3",
+    "@tiptap/extension-youtube": "^3.15.3",
+    "@tiptap/react": "^3.15.3",
+    "@tiptap/starter-kit": "^3.15.3",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "dayjs": "^1.11.13",
+    "framer-motion": "^12.11.3",
+    "libphonenumber-js": "^1.12.17",
+    "lowlight": "^3.3.0",
+    "lucide-react": "^0.544.0",
+    "motion": "^12.23.22",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "tailwind-merge": "^2.6.0",
+    "tailwindcss-animate": "^1.0.7"
+  },
+  "bundledDependencies": [
+    "class-variance-authority",
+    "clsx",
+    "tailwind-merge",
+    "@iconify/react"
+  ],
+  "devDependencies": {
+    "@storybook/addon-docs": "^10.1.4",
+    "@storybook/addon-links": "^10.1.4",
+    "@storybook/addon-onboarding": "^10.1.4",
+    "@storybook/react": "^10.1.4",
+    "@storybook/react-vite": "^10.1.4",
+    "@storybook/testing-library": "^0.2.2",
+    "@tanstack/react-query": "^5.75.6",
+    "@types/node": "^20.11.0",
+    "@types/react": "^18.2.0",
+    "@types/react-dom": "^18.2.0",
+    "@vitejs/plugin-react": "^4.2.0",
+    "autoprefixer": "^10.4.17",
+    "baseline-browser-mapping": "^2.9.0",
+    "postcss": "^8.4.35",
+    "storybook": "^10.1.4",
+    "tailwindcss": "^3.4.1",
+    "ts-node": "^10.9.2",
+    "tsup": "^8.4.0",
+    "typescript": "^5.3.0",
+    "vite": "^5.0.0",
+    "vite-tsconfig-paths": "^5.1.4"
+  },
+  "peerDependencies": {
+    "@tanstack/react-query": "^5.0.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
+  "bundleDependencies": [
+    "class-variance-authority",
+    "clsx",
+    "tailwind-merge",
+    "@iconify/react"
+  ]
+}
