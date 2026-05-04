@@ -1,13 +1,13 @@
 "use client";
 
 import {
+  AnimatePresence,
   motion,
+  useMotionValueEvent,
   useReducedMotion,
   useScroll,
-  useTransform,
-  type MotionValue,
 } from "motion/react";
-import { useRef, type ReactNode } from "react";
+import { useRef, useState } from "react";
 import { Reveal } from "../components/Reveal";
 import { atomic } from "../copy";
 import { SECTION_IDS } from "../data";
@@ -27,6 +27,13 @@ export function AtomicPrinciples() {
   });
 
   const stepCount = atomic.steps.length;
+  const [activeIndex, setActiveIndex] = useState(0);
+
+  useMotionValueEvent(scrollYProgress, "change", (latest) => {
+    const clamped = Math.min(0.999_999, Math.max(0, latest));
+    const nextIndex = Math.floor(clamped * stepCount);
+    setActiveIndex((current) => (current === nextIndex ? current : nextIndex));
+  });
 
   return (
     <section
@@ -62,16 +69,7 @@ export function AtomicPrinciples() {
           <div className="sticky top-0 flex h-svh items-center">
             <div className="mx-auto grid w-full max-w-6xl grid-cols-1 items-center gap-12 px-4 sm:px-8 lg:grid-cols-12 lg:gap-16">
               <div className="relative min-h-64 lg:col-span-5">
-                {atomic.steps.map((step, i) => (
-                  <CopyLayer
-                    key={step.id}
-                    progress={scrollYProgress}
-                    index={i}
-                    stepCount={stepCount}
-                  >
-                    <CopyContent index={i} stepCount={stepCount} />
-                  </CopyLayer>
-                ))}
+                <CopyPanel activeIndex={activeIndex} stepCount={stepCount} />
               </div>
 
               <div className="relative aspect-square w-full lg:col-span-7">
@@ -85,24 +83,14 @@ export function AtomicPrinciples() {
                     className="absolute inset-0 bg-[linear-gradient(to_right,rgb(0_0_0/0.04)_1px,transparent_1px),linear-gradient(to_bottom,rgb(0_0_0/0.04)_1px,transparent_1px)] bg-size-[32px_32px] dark:bg-[linear-gradient(to_right,rgb(255_255_255/0.04)_1px,transparent_1px),linear-gradient(to_bottom,rgb(255_255_255/0.04)_1px,transparent_1px)]"
                   />
 
-                  {VISUALS.map((Visual, i) => (
-                    <VisualLayer
-                      key={i}
-                      progress={scrollYProgress}
-                      index={i}
-                      stepCount={stepCount}
-                    >
-                      <Visual />
-                    </VisualLayer>
-                  ))}
+                  <VisualPanel activeIndex={activeIndex} />
 
                   <div className="absolute right-4 top-4 flex flex-col gap-2 sm:right-6 sm:top-6">
                     {atomic.steps.map((step, i) => (
                       <IndicatorDot
                         key={step.id}
-                        progress={scrollYProgress}
                         index={i}
-                        stepCount={stepCount}
+                        activeIndex={activeIndex}
                         label={step.label}
                       />
                     ))}
@@ -118,66 +106,74 @@ export function AtomicPrinciples() {
 }
 
 /* -------------------------------------------------------------------------- */
-/*  Per-step layers — each instance calls hooks once, in stable order          */
+/*  Step transitions — single active layer, no overlap                          */
 /* -------------------------------------------------------------------------- */
 
-interface LayerProps {
-  progress: MotionValue<number>;
-  index: number;
-  stepCount: number;
-  children: ReactNode;
-}
+const LAYER_TRANSITION = { duration: 0.28, ease: "easeOut" } as const;
 
-function CopyLayer({ progress, index, stepCount, children }: LayerProps) {
-  const opacity = useStepOpacity(progress, index, stepCount);
-  // Unary transform: [0,1]→[16,0] would be a decreasing output range and can
-  // trip WAAPI ("Offsets must be monotonically non-decreasing") when applied to y.
-  const y = useTransform(opacity, (o) => (1 - o) * 16);
+function CopyPanel({
+  activeIndex,
+  stepCount,
+}: {
+  activeIndex: number;
+  stepCount: number;
+}) {
+  const step = atomic.steps[activeIndex];
   return (
-    <motion.div
-      style={{ opacity, y }}
-      className="absolute inset-0 flex flex-col justify-center"
-    >
-      {children}
-    </motion.div>
+    <AnimatePresence initial={false} mode="wait">
+      <motion.div
+        key={step.id}
+        initial={{ opacity: 0, y: 18 }}
+        animate={{ opacity: 1, y: 0 }}
+        exit={{ opacity: 0, y: -18 }}
+        transition={LAYER_TRANSITION}
+        className="absolute inset-0 flex flex-col justify-center"
+      >
+        <CopyContent index={activeIndex} stepCount={stepCount} />
+      </motion.div>
+    </AnimatePresence>
   );
 }
 
-function VisualLayer({ progress, index, stepCount, children }: LayerProps) {
-  const opacity = useStepOpacity(progress, index, stepCount);
-  const scale = useTransform(opacity, [0, 1], [0.94, 1]);
+function VisualPanel({ activeIndex }: { activeIndex: number }) {
+  const Visual = VISUALS[activeIndex];
   return (
-    <motion.div
-      style={{ opacity, scale }}
-      className="absolute inset-0 flex items-center justify-center p-6 sm:p-10"
-    >
-      {children}
-    </motion.div>
+    <AnimatePresence initial={false} mode="wait">
+      <motion.div
+        key={activeIndex}
+        initial={{ opacity: 0, scale: 0.96 }}
+        animate={{ opacity: 1, scale: 1 }}
+        exit={{ opacity: 0, scale: 1.02 }}
+        transition={LAYER_TRANSITION}
+        className="absolute inset-0 flex items-center justify-center p-6 sm:p-10"
+      >
+        <Visual />
+      </motion.div>
+    </AnimatePresence>
   );
 }
 
 function IndicatorDot({
-  progress,
   index,
-  stepCount,
+  activeIndex,
   label,
 }: {
-  progress: MotionValue<number>;
   index: number;
-  stepCount: number;
+  activeIndex: number;
   label: string;
 }) {
-  const opacity = useStepOpacity(progress, index, stepCount);
-  const dotScale = useTransform(opacity, [0, 1], [0.5, 1]);
+  const isActive = index === activeIndex;
   return (
     <div className="flex items-center gap-2">
       <motion.span
-        style={{ opacity, scale: dotScale }}
+        animate={{ opacity: isActive ? 1 : 0.35, scale: isActive ? 1 : 0.72 }}
+        transition={{ duration: 0.18, ease: "easeOut" }}
         className="size-1.5 rounded-full bg-primary-500"
         aria-hidden
       />
       <motion.span
-        style={{ opacity }}
+        animate={{ opacity: isActive ? 1 : 0.45 }}
+        transition={{ duration: 0.18, ease: "easeOut" }}
         className="font-mono text-[10px] uppercase tracking-[0.18em] text-primary-700 dark:text-primary-300"
       >
         {label}
@@ -381,34 +377,3 @@ function StaticSteps() {
   );
 }
 
-/* -------------------------------------------------------------------------- */
-/*  Internal hook: opacity for a step based on global progress                 */
-/*                                                                             */
-/*  Window centered on (i + 0.5) / stepCount, half-width = 1 / stepCount.      */
-/*  Cross-fades neighbors so transitions never look "popped".                  */
-/* -------------------------------------------------------------------------- */
-
-function useStepOpacity(
-  progress: MotionValue<number>,
-  i: number,
-  stepCount: number,
-) {
-  const center = (i + 0.5) / stepCount;
-  const half = 1 / stepCount;
-  const lo = center - half;
-  const hi = center + half;
-  const loFade = center - half * 0.4;
-  const hiFade = center + half * 0.4;
-
-  // Trapezoid fade in/out. Do not use multi-stop useTransform with output
-  // [0,1,1,0] — non-monotonic value stops can make Motion emit invalid WAAPI
-  // keyframes ("Offsets must be monotonically non-decreasing").
-  return useTransform(progress, (p) => {
-    if (p <= lo || p >= hi) return 0;
-    if (p >= loFade && p <= hiFade) return 1;
-    if (p < loFade) {
-      return (p - lo) / (loFade - lo);
-    }
-    return (hi - p) / (hi - hiFade);
-  });
-}

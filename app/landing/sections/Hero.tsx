@@ -2,7 +2,7 @@
 
 import { motion, useReducedMotion } from "motion/react";
 import { AuroraBackground } from "../components/AuroraBackground";
-import { CursorSpotlight } from "../components/CursorSpotlight";
+// import { CursorSpotlight } from "../components/CursorSpotlight";
 import { ExternalIcon, ArrowDownIcon } from "../components/ExternalIcon";
 import { MagneticButton } from "../components/MagneticButton";
 import { SplitText } from "../components/SplitText";
@@ -34,7 +34,7 @@ export function Hero() {
       className="relative isolate flex min-h-svh flex-col justify-center overflow-hidden border-b border-border pt-24 sm:pt-28"
     >
       <AuroraBackground />
-      <CursorSpotlight />
+      {/* <CursorSpotlight /> */}
 
       <div className="relative mx-auto flex w-full max-w-6xl flex-col gap-10 px-4 pb-20 pt-12 sm:px-8 sm:pb-28 lg:gap-14">
         <motion.p

@@ -1,7 +1,7 @@
 "use client";
 
 import { ExternalIcon } from "../components/ExternalIcon";
-import { MagneticButton } from "../components/MagneticButton";
+// import { MagneticButton } from "../components/MagneticButton";
 import { Reveal } from "../components/Reveal";
 import { cta, footer, STORYBOOK_URL } from "../copy";
 import { DESIGN_SYSTEM_PRODUCTS, SECTION_IDS } from "../data";
@@ -54,14 +54,13 @@ export function CtaFooter() {
             delay={0.18}
             className="mt-10 flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-4"
           >
-            <MagneticButton
+            <a
               href={STORYBOOK_URL}
-              external
               className="group inline-flex items-center justify-center gap-2 rounded-full bg-foreground px-7 py-3.5 text-base font-semibold text-background shadow-[0_8px_30px_-8px_rgb(0_124_153/0.55)] transition hover:bg-primary-600 hover:text-white"
             >
               {cta.primary}
               <ExternalIcon className="size-4 opacity-90 transition group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-            </MagneticButton>
+            </a>
             <a
               href={cta.url}
               className="inline-flex items-center justify-center gap-2 rounded-full border border-border bg-surface px-6 py-3 text-base font-medium text-foreground transition hover:border-primary-300 hover:text-primary-700 dark:hover:border-primary-700 dark:hover:text-primary-200"
