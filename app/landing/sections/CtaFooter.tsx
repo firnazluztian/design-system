@@ -56,6 +56,8 @@ export function CtaFooter() {
           >
             <a
               href={STORYBOOK_URL}
+              target="_blank"
+              rel="noopener noreferrer"
               className="group inline-flex items-center justify-center gap-2 rounded-full bg-foreground px-7 py-3.5 text-base font-semibold text-background shadow-[0_8px_30px_-8px_rgb(0_124_153/0.55)] transition hover:bg-primary-600 hover:text-white"
             >
               {cta.primary}
@@ -63,6 +65,8 @@ export function CtaFooter() {
             </a>
             <a
               href={cta.url}
+              target="_blank"
+              rel="noopener noreferrer"
               className="inline-flex items-center justify-center gap-2 rounded-full border border-border bg-surface px-6 py-3 text-base font-medium text-foreground transition hover:border-primary-300 hover:text-primary-700 dark:hover:border-primary-700 dark:hover:text-primary-200"
             >
               {cta.secondary}
